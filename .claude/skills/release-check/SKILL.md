@@ -13,34 +13,30 @@ This is the highest-stakes checklist in the system. Like a pilot's pre-flight ch
 
 Follow these steps:
 
-**ACTIVATE:**
-- State your identity, role, and that you're running a pre-release check
+**SIGN IN:**
+- Run the SIGN IN checklist from your agent file
 - Note any known risks or concerns about this release
 
-**⏸️ PAUSE 1 — Documentation & Debt Check (READ-DO):**
+**⏸️ TIME OUT 1 — Documentation & Debt Check (READ-DO):**
 1. Read CHANGELOG.md — is it up to date with all changes?
 2. Read TECH_DEBT.md — are there any critical items blocking release?
 3. Verify all specs in `docs/specs/` with status "In Development" have acceptance criteria met
 4. Verify documentation is current (README, API docs, ADRs)
 
-**⏸️ PAUSE 2 — Testing & Quality Gate (DO-CONFIRM):**
+**⏸️ TIME OUT 2 — Testing & Quality Gate (DO-CONFIRM):**
 5. Run all tests and verify they pass
-6. Run `/code-health` scan (check for dead code, unused deps)
-7. Check that all review findings with "CHANGES REQUIRED" have been resolved
-- [ ] All tests passing
-- [ ] No critical dead code or dependency vulnerabilities
-- [ ] All CHANGES REQUIRED findings resolved
-- [ ] CHANGELOG complete and accurate
+6. Run `/code-health` scan
+7. Check that all CHANGES REQUIRED findings have been resolved
+8. Run the Quality Verification checklist from your agent file
 
-**⏸️ PAUSE 3 — Security Gate (DO-CONFIRM):**
-8. Run `/security-audit` on changed files
-- [ ] No critical security findings
-- [ ] No hardcoded secrets or credentials
-- [ ] Dependencies free of known critical CVEs
-- [ ] Auth/authz enforced on all protected endpoints
+**⏸️ TIME OUT 3 — Security & Release Gate (DO-CONFIRM):**
+9. Run `/security-audit` on changed files
+10. Run the Security Verification checklist from your agent file
+11. Run the Release Readiness checklist from your agent file
 
-**VERDICT:**
-9. Write release assessment to `docs/reviews/release-check-{version}.md`
-10. Provide final verdict: **READY FOR RELEASE** | **BLOCKED** (with specific reasons and what must be fixed)
+**SIGN OUT:**
+12. Write release assessment to `docs/reviews/release-check-{version}.md`
+13. Provide final verdict: **READY FOR RELEASE** | **BLOCKED** (with specific reasons)
+14. Run the SIGN OUT checklist from your agent file
 
 A release blocked here prevents issues reaching users. This is the last line of defense.

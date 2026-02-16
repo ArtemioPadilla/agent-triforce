@@ -47,56 +47,65 @@ Every checklist in this system MUST follow these rules:
 - **DO-CONFIRM**: You do your work from memory and experience, then PAUSE and run the checklist to confirm nothing was missed. Used when the team has expertise and the work is familiar.
 - **READ-DO**: You read each item and do it as you go, step by step. Used for unfamiliar procedures, complex sequences, or when precision matters more than speed.
 
-### Activation Phenomenon (Team Briefing Protocol)
-Before any agent begins work, they MUST:
-1. **State their identity and role**: "I am [Agent Name], [role description]"
-2. **State what they're about to do**: The task, scope, and approach
-3. **Surface concerns**: Any risks, unknowns, or blockers they see upfront
+### Three Pause Points (SIGN IN / TIME OUT / SIGN OUT)
+Every agent invocation has exactly three mandatory pause points, borrowed from the WHO Surgical Safety Checklist:
 
-This is not ceremony — research shows that introducing roles and stating the plan activates participation, responsibility, and situational awareness. Teams that brief perform dramatically better than those that skip it.
+1. **SIGN IN** (DO-CONFIRM): Before starting work. State identity, role, task, and concerns. Read memory and relevant docs. Research shows that introducing roles and stating the plan activates participation, responsibility, and situational awareness.
+2. **TIME OUT** (varies): Mid-workflow verification. Stop, run the relevant checklist, fix any failures before proceeding. Forja gets two TIME OUTs (implementation correctness + delivery cleanliness).
+3. **SIGN OUT** (DO-CONFIRM): Before finishing. Update memory, confirm deliverables, prepare handoff, update CHANGELOG/TECH_DEBT.
+
+No agent may skip any pause point. Each agent's `## Checklists` section defines the specific items.
 
 ### Workflow Pause Points
-Every workflow has defined pause points where checklists are mandatory:
 
 ```
 Standard Feature Flow:
-PM (spec) → ⏸️ SPEC READY → Dev (implement) → ⏸️ PRE-HANDOFF → QA (audit) → ⏸️ VERDICT → Dev (fix) → ⏸️ FIX COMPLETE → QA (re-verify)
+PM  ⏸️ SIGN IN → spec → ⏸️ TIME OUT: Spec Completion → ⏸️ SIGN OUT
+  → Dev ⏸️ SIGN IN → implement → ⏸️ TIME OUT: Implementation Complete → ⏸️ TIME OUT: Pre-Delivery → ⏸️ SIGN OUT
+    → QA  ⏸️ SIGN IN → audit → ⏸️ TIME OUT: Security + Quality Verification → ⏸️ SIGN OUT
+      → Dev ⏸️ SIGN IN → fix → ⏸️ TIME OUT: Implementation Complete + Pre-Delivery → ⏸️ SIGN OUT
+        → QA  ⏸️ SIGN IN → re-verify → ⏸️ SIGN OUT
 ```
 
 ```
 Code Health Flow:
-QA (scan) → ⏸️ SCAN COMPLETE → Dev (cleanup) → ⏸️ CLEANUP DONE → QA (verify)
+QA  ⏸️ SIGN IN → scan → ⏸️ TIME OUT: Scan Complete → ⏸️ SIGN OUT
+  → Dev ⏸️ SIGN IN → cleanup → ⏸️ TIME OUT: Pre-Delivery → ⏸️ SIGN OUT
+    → QA  ⏸️ SIGN IN → verify → ⏸️ SIGN OUT
 ```
 
-At each ⏸️ pause point, the active agent MUST run their designated checklist before proceeding to the next phase.
+### Communication Schedule
 
-### Cross-Agent Communication Checklists
-At every handoff between agents, the sending agent must provide:
+| From | To | When | What |
+|---|---|---|---|
+| Prometeo | Forja | Spec complete | Spec path, priority, constraints, open questions needing Dev input |
+| Forja | Prometeo | Spec ambiguity during implementation | Specific ambiguities, proposed assumptions, blocking vs non-blocking |
+| Forja | Centinela | Implementation complete | Files changed, how to test, security concerns, known limitations |
+| Centinela | Forja | Review complete | Verdict, findings by priority, fix order recommendation |
+| Centinela | Prometeo | Business-impacting findings | Quality state, release recommendation, product decisions needed |
+| Any agent | User | On ambiguity | Concrete options with trade-offs (never guess) |
+
+At every handoff, the sending agent must provide:
 1. **What was done**: Summary of work completed
 2. **What to watch for**: Known risks, edge cases, concerns
 3. **What's needed next**: Explicit expectations for the receiving agent
 4. **Open questions**: Anything unresolved that needs the next agent's input
 
+### Error Recovery (Non-Normal Checklists)
+When normal operations fail, the agent switches to the relevant Non-Normal READ-DO checklist in their `## Checklists` section. Step 1 is always the equivalent of "FLY THE AIRPLANE" — the most basic thing that gets forgotten under pressure:
+- **Prometeo**: "STOP — list the specific ambiguities, don't guess"
+- **Forja**: "Read the actual error message, don't guess"
+- **Centinela**: "Document the vulnerability before attempting to fix"
+
 ## Workflow Rules
 
-### Standard Feature Flow
-```
-PM (spec) → Dev (implement) → QA (audit) → Dev (fix findings) → QA (re-verify)
-```
-
-### Code Health Flow (run periodically)
-```
-QA (scan) → Dev (cleanup) → QA (verify)
-```
-
 ### Every Agent MUST on Every Invocation:
-1. **Activate** — State identity, task, and concerns (Activation Phenomenon)
-2. Read their own MEMORY.md first to recall past context
-3. Read relevant docs in `docs/` before starting work
-4. Run the appropriate checklist at each pause point in their workflow
-5. Update their MEMORY.md with key decisions/findings before finishing
-6. Update CHANGELOG.md if any code or spec changed
-7. Update TECH_DEBT.md if tech debt was added, found, or resolved
+1. **SIGN IN** — Run the SIGN IN checklist (identity, task, concerns, memory, docs)
+2. Run the appropriate TIME OUT checklist at each pause point in the workflow
+3. If something goes wrong, invoke the Non-Normal checklist for your role
+4. **SIGN OUT** — Run the SIGN OUT checklist (memory, deliverables, handoff)
+5. Update CHANGELOG.md if any code or spec changed
+6. Update TECH_DEBT.md if tech debt was added, found, or resolved
 
 ## Project Conventions
 
