@@ -1,0 +1,25 @@
+{
+  "name": "agent-triforce",
+  "owner": {
+    "name": "Artemio Padilla"
+  },
+  "metadata": {
+    "description": "3-agent development system (PM/Dev/QA) with robust methodology",
+    "version": "1.0.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "agent-triforce",
+      "source": "./agent-triforce",
+      "description": "Prometeo (PM) + Forja (Dev) + Centinela (QA) with robust methodology for software development projects",
+      "version": "1.0.0",
+      "author": {
+        "name": "Artemio Padilla"
+      },
+      "category": "development",
+      "tags": ["multi-agent", "pm", "qa", "security", "code-review", "checklist"],
+      "license": "MIT"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/tools/dashboard.py --html -o tools/dashboard.html 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}
