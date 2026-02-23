@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-<!-- PM adds planned features here -->
+- **Plugin Promotion and Monetization Plan**: Comprehensive 4-phase promotion and monetization strategy for the Agent Triforce Claude Code plugin. Covers GitHub discovery infrastructure, content marketing (Show HN, Reddit, Twitter/X), community building (Product Hunt, Substack, YouTube), enterprise partnerships, GitHub Sponsors tiers, consulting offer ($1.5K–$20K), digital product packs, and enterprise licensing. See `docs/specs/plugin-promotion-plan.md`.
 
 ### Added
 - **Plugin Marketplace**: Packaged Agent Triforce as an installable Claude Code plugin marketplace. Users can install with `/plugin marketplace add ArtemioPadilla/claude-triforce-template` then `/plugin install agent-triforce@agent-triforce`. Includes 3 agents, 6 skills (namespaced as `/agent-triforce:*`), and 2 new commands (`setup` for project scaffolding, `methodology` for checklist reference). Zero-duplication architecture using symlinks from plugin to canonical `.claude/` files. Includes `dashboard` command and SubagentStop hook that auto-regenerates the HTML dashboard after every agent session
