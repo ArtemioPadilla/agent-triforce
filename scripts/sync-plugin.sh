@@ -9,7 +9,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-PLUGIN_DIR="$REPO_ROOT/plugins/agent-triforce"
+PLUGIN_DIR="$REPO_ROOT/agent-triforce"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
