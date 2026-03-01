@@ -46,7 +46,22 @@ from typing import Any, Dict, List, Optional
 # ---------------------------------------------------------------------------
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = SCRIPT_DIR.parent
+
+
+def _find_project_root() -> Path:
+    """Find the project root directory.
+
+    When run as a plugin hook, __file__ is inside the plugin cache
+    (~/.claude/plugins/cache/), so we check CWD first for project markers.
+    Falls back to __file__-relative resolution for direct invocation.
+    """
+    cwd = Path.cwd()
+    if (cwd / "CLAUDE.md").exists() or (cwd / ".claude" / "agents").exists():
+        return cwd
+    return Path(__file__).resolve().parent.parent
+
+
+PROJECT_ROOT = _find_project_root()
 DEFAULT_GATES_DIR = PROJECT_ROOT / "docs" / "gates"
 
 VALID_GATE_TYPES = frozenset({"plan-gate", "release-gate"})
