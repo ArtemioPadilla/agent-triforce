@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Growth Plan**: Focused, sequenced adoption and growth strategy that complements the promotion plan. Covers pre-launch readiness gates, curated list resubmission strategy (with lessons from hesreallyhim PR #819 closure), Show HN and Reddit sequencing, organic GitHub discovery tactics, milestone-gated action items, and realistic solo-maintainer timeline. See `docs/specs/growth-plan.md`.
 
 ### Added
+- **Quickstart Guide**: Step-by-step onboarding doc (`docs/quickstart.md`) covering plugin install, setup, and first feature spec in under 5 minutes. Linked from README.
+- **Growth Log**: Baseline tracking file (`docs/growth-log.md`) for weekly adoption metrics per growth plan Appendix E.
 - **`/business-review` Skill**: New PM-led post-implementation business assessment skill for Prometeo. Evaluates 5 areas: Success Metrics, Scope Compliance, AC Business Validation, Risk Review, and Product Decisions. Generates structured report with confidence score (0-100), verdict (APPROVED/CONDITIONALLY APPROVED/CHANGES REQUIRED), and Mermaid-based visual representations: Feature Timeline (Gantt chart showing spec→dev→QA→review lifecycle), Project Roadmap Status (timeline of all features by phase), Confidence Score Breakdown (pie chart), and Risk & Dependency Map (flowchart). Reports saved to `docs/reviews/business-review-{feature}-{date}.md`. New Business Verification checklist (6 items) added to Prometeo agent (7 checklists total). Closes the product loop: feature-spec → implement → QA → business-review → release.
 - **F05 Security Scanner Hook**: Pre-commit security scanner (`tools/security-scanner.py`) that detects hardcoded secrets (AWS keys, GitHub tokens, OpenAI keys, Stripe keys, private keys, passwords, API keys, auth tokens), SQL injection patterns (f-string, concatenation, %-formatting), XSS vectors (innerHTML, dangerouslySetInnerHTML, document.write), and unsafe eval/exec/__import__ usage. 23 versioned patterns in `src/security/patterns.json`. Supports `.agentignore` for excluding test fixtures (gitignore syntax). Outputs JSON with findings, severity, line numbers. Critical/high findings block; medium findings are logged. Appends to `docs/reviews/security-audit-trail.md` (append-only). PreToolUse hook on Write/Edit tools in `hooks.json`. Tests in `tests/test_security_scanner.py`.
 - **F02 Automated Handoff Protocol**: Handoff artifact generator (`tools/handoff-generator.py`) producing structured markdown and JSON artifacts at `docs/handoffs/`. Enforces 4 required fields from CLAUDE.md Communication Schedule: what was done, what to watch for, what's needed next, open questions. Validates all fields are non-empty (blocks if incomplete). Supports direct CLI args or `--from-json` for machine-generated handoffs. `--dry-run` mode for validation without file creation. Agent name validation (prometeo, forja, centinela). Tests in `tests/test_handoff_generator.py`.
@@ -53,9 +55,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **review-findings skill**: Enhanced FIX section with Clean Code principles (Extract Method, Rename, Move, Replace Conditional with Polymorphism), Arrange-Act-Assert test updates, Boy Scout Rule scan, and "no new code smells" verification
 - **CLAUDE.md**: Added Software Engineering Principles section (IEEE 830/INVEST specs, Clean Architecture, TDD/Clean Code, FIRST testing, Refactoring, 12-Factor/GoF). Updated Code Standards with function size limit (<30 lines) and error handling preference
 - **Dashboard**: Added spec tier badge (S/M/L) to Feature Pipeline kanban cards in both HTML and terminal renderers
+- **Dashboard**: Added acceptance criteria count badge to pipeline kanban cards, "Next Step" summary in stats bar, renamed "What's Next" to "Recommended Next Steps"
+- **Dashboard**: Added project name to HTML `<title>`, page header, and terminal banner for multi-project disambiguation
 
 ### Fixed
-<!-- Dev adds fixes here -->
+- **Dashboard**: Added `--no-open` flag to prevent browser tab spam from SubagentStop hooks. Hook now generates HTML silently; manual `/dashboard` invocation still opens the browser.
+- **Version**: Corrected product version from 1.x.x to 0.x.x (0.5.0) across plugin.json, marketplace.json, and README badge — project is pre-1.0 stable release
 
 ### Security
 <!-- QA adds security fixes here -->

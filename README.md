@@ -2,7 +2,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/ArtemioPadilla/agent-triforce?style=flat-square)](https://github.com/ArtemioPadilla/agent-triforce/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.5.0-blue?style=flat-square)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Plugin-blueviolet?style=flat-square)](https://claude.ai/code)
 [![Sponsor](https://img.shields.io/badge/sponsor-EA4AAA?style=flat-square&logo=github-sponsors&logoColor=white)](https://github.com/sponsors/ArtemioPadilla)
 
@@ -29,6 +29,8 @@ Most multi-agent systems focus on *more agents*. Agent Triforce focuses on *more
 /plugin install agent-triforce@agent-triforce
 /agent-triforce:setup    # scaffold project directories
 ```
+
+For a step-by-step walkthrough, see the [Quickstart Guide](docs/quickstart.md).
 
 ### As a Template (start a new project)
 

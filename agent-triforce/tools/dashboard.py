@@ -157,6 +157,7 @@ class SpecInfo:
     priority: str
     spec_date: str
     tier: str = ""
+    ac_count: int = 0
 
 
 @dataclass
@@ -376,6 +377,7 @@ def parse_specs() -> List[SpecInfo]:
         priority_m = re.search(r"\*\*Priority\*\*:\s*(.+)", text)
         date_m = re.search(r"\*\*Date\*\*:\s*(.+)", text)
         tier_m = re.search(r"\*\*Tier\*\*:\s*([SML])", text)
+        ac_count = len(re.findall(r"\*\*GIVEN\*\*", text))
         specs.append(
             SpecInfo(
                 filename=path.name,
@@ -384,6 +386,7 @@ def parse_specs() -> List[SpecInfo]:
                 priority=priority_m.group(1).strip() if priority_m else "Unknown",
                 spec_date=date_m.group(1).strip() if date_m else "",
                 tier=tier_m.group(1) if tier_m else "",
+                ac_count=ac_count,
             )
         )
     return specs
@@ -657,6 +660,7 @@ class DashboardData:
     adrs: List[ADRRecord]
     comm_routes: List[CommRoute]
     health: HealthStatus
+    project_name: str = ""
     next_actions: List[NextAction] = field(default_factory=list)
 
 
@@ -786,6 +790,7 @@ def collect_data() -> DashboardData:
         adrs=parse_adrs(),
         comm_routes=parse_comm_schedule(),
         health=compute_health(tech_debt, reviews, specs),
+        project_name=PROJECT_ROOT.name,
         next_actions=_compute_next_actions(specs, reviews, tech_debt),
     )
 
@@ -814,8 +819,9 @@ def _term_header(console: object, data: DashboardData) -> None:
     from rich.text import Text
 
     health_style = {"HEALTHY": "green", "WARNING": "yellow", "CRITICAL": "bold red"}[data.health.value]
+    term_title = f"{data.project_name} — Agent Triforce" if data.project_name else "Agent Triforce Dashboard"
     title_text = Text.assemble(
-        ("Agent Triforce Dashboard", "bold white"),
+        (term_title, "bold white"),
         ("  |  System: ", "dim"),
     )
     console.print(
@@ -929,7 +935,7 @@ def _term_feature_pipeline(console: object, data: DashboardData) -> None:
     for stage in PIPELINE_STAGES:
         items = [s for s in data.specs if s.status == stage]
         if items:
-            cell = "\n".join(f"[dim]{s.priority}[/]{f' ({s.tier})' if s.tier else ''} {s.title}" for s in items)
+            cell = "\n".join(f"[dim]{s.priority}[/]{f' ({s.tier})' if s.tier else ''}{f' [blue]{s.ac_count} AC[/]' if s.ac_count else ''} {s.title}" for s in items)
         else:
             cell = "[dim]--[/]"
         row.append(cell)
@@ -1203,7 +1209,7 @@ def _health_color(status: HealthStatus) -> str:
 def render_html(data: DashboardData, output_path: Path) -> Path:
     """Render dashboard as a self-contained HTML file."""
     h = _HtmlBuilder()
-    h.open_page(data.health)
+    h.open_page(data.health, data.project_name)
     h.section_header_and_nav(data)
     h.section_whats_next(data)
     h.section_system_overview(data)
@@ -1232,14 +1238,15 @@ class _HtmlBuilder:
 
     # -- Page shell ---------------------------------------------------------
 
-    def open_page(self, health: HealthStatus) -> None:
+    def open_page(self, health: HealthStatus, project_name: str = "") -> None:
         health_color = _health_color(health)
+        page_title = f"{project_name} — Agent Triforce" if project_name else "Agent Triforce Dashboard"
         self._w(f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agent Triforce Dashboard</title>
+<title>{page_title}</title>
 <style>
 :root {{
   --bg: {COLOR_BG_HEX};
@@ -1682,9 +1689,10 @@ tr:last-child td {{ border-bottom: none; }}
 
     def section_header_and_nav(self, data: DashboardData) -> None:
         """Render header with health badge, quick actions, and sticky nav."""
+        header_title = f"{data.project_name} — Agent Triforce" if data.project_name else "Agent Triforce Dashboard"
         self._w(f"""<div class="header">
   <div>
-    <h1>Agent Triforce Dashboard</h1>
+    <h1>{header_title}</h1>
     <div class="quick-actions">
       <span class="quick-action pm" title="Define a feature spec (Prometeo)">/feature-spec</span>
       <span class="quick-action dev" title="Implement from spec (Forja)">/implement-feature</span>
@@ -1700,6 +1708,10 @@ tr:last-child td {{ border-bottom: none; }}
         total_checklists = sum(len(a.checklists) for a in data.agents)
         total_items = sum(c.item_count for a in data.agents for c in a.checklists)
         active_debt_count = sum(1 for d in data.tech_debt if not d.is_resolved)
+        next_summary = ""
+        if data.next_actions:
+            na = data.next_actions[0]
+            next_summary = f'<div class="stat-item" style="border-left:2px solid #60a5fa;padding-left:12px"><div class="stat-value" style="font-size:13px;color:#60a5fa">{_esc(na.agent)} {_esc(na.command)}</div><div class="stat-label">Next Step</div></div>'
         self._w(f"""<div class="stats-bar">
   <div class="stat-item"><div class="stat-value">{len(data.specs)}</div><div class="stat-label">Specs</div></div>
   <div class="stat-item"><div class="stat-value">{len(data.reviews)}</div><div class="stat-label">Reviews</div></div>
@@ -1707,10 +1719,11 @@ tr:last-child td {{ border-bottom: none; }}
   <div class="stat-item"><div class="stat-value">{len(data.adrs)}</div><div class="stat-label">ADRs</div></div>
   <div class="stat-item"><div class="stat-value">{total_checklists}<span style="font-size:12px;font-weight:400;color:var(--text-dim)"> ({total_items})</span></div><div class="stat-label">Checklists (items)</div></div>
   <div class="stat-item"><div class="stat-value">{len(data.commits)}</div><div class="stat-label">Commits</div></div>
+  {next_summary}
 </div>""")
 
         self._w("""<nav class="nav">
-  <a href="#whats-next">What's Next</a>
+  <a href="#whats-next">Recommended Next Steps</a>
   <a href="#overview">Overview</a>
   <a href="#pipeline">Pipeline</a>
   <a href="#quality">Quality</a>
@@ -1724,7 +1737,7 @@ tr:last-child td {{ border-bottom: none; }}
 
     def section_whats_next(self, data: DashboardData) -> None:
         """Render the What's Next section with suggested actions."""
-        self._w('<div class="next-section" id="whats-next"><h2>What\'s Next</h2>')
+        self._w('<div class="next-section" id="whats-next"><h2>Recommended Next Steps</h2>')
         if not data.next_actions:
             self._w('<div class="empty-guide">No pending actions. The system is idle.</div>')
         else:
@@ -1772,7 +1785,8 @@ tr:last-child td {{ border-bottom: none; }}
                 for s in items:
                     pri_css = _priority_css(s.priority)
                     tier_badge = f' <span style="color:#94a3b8;font-size:10px;font-weight:bold">({s.tier})</span>' if s.tier else ""
-                    self._w(f'<div class="kanban-item"><span class="priority {pri_css}">{_esc(s.priority)}</span>{tier_badge}<br>{_esc(s.title)}</div>')
+                    ac_badge = f' <span style="color:#60a5fa;font-size:10px;font-weight:bold">{s.ac_count} AC</span>' if s.ac_count else ""
+                    self._w(f'<div class="kanban-item"><span class="priority {pri_css}">{_esc(s.priority)}</span>{tier_badge}{ac_badge}<br>{_esc(s.title)}</div>')
             else:
                 self._w('<div style="color:var(--text-dim);font-size:12px;text-align:center">--</div>')
             self._w("</div>")
@@ -2038,6 +2052,11 @@ def main() -> None:
         default=None,
         help="Output path for HTML file (default: tools/dashboard.html)",
     )
+    parser.add_argument(
+        "--no-open",
+        action="store_true",
+        help="Generate HTML without opening browser (used by hooks)",
+    )
     args = parser.parse_args()
     data = collect_data()
 
@@ -2045,7 +2064,8 @@ def main() -> None:
         output_path = args.output if args.output else DEFAULT_HTML_OUTPUT
         result = render_html(data, output_path)
         print(f"Dashboard written to {result}")
-        webbrowser.open(f"file://{result.resolve()}")
+        if not args.no_open:
+            webbrowser.open(f"file://{result.resolve()}")
     else:
         render_terminal(data)
 
