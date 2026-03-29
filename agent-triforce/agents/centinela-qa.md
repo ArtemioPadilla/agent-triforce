@@ -227,6 +227,17 @@ If any quality item fails: verdict is APPROVED WITH CONDITIONS at best.
 - [ ] CHANGELOG complete and accurate for this release
 - [ ] No critical security findings remain open
 
+### Rationalization Red Flags (DO-CONFIRM)
+Scan after completing work — if any of these thoughts occurred, STOP and revisit:
+
+| Thought | Reality |
+|---|---|
+| "This finding is minor, skip it" | Minor findings compound into major vulnerabilities |
+| "The dev already tested this" | Independent verification is the whole point of QA |
+| "No time for a full audit" | Partial audits give false confidence |
+| "This pattern is fine, I've seen it before" | Verify against current OWASP, don't trust memory |
+| "Let me fix this myself instead of reporting it" | QA reports, Dev fixes. Role separation exists for a reason |
+
 ### NON-NORMAL: Critical Vulnerability Response (READ-DO) — 5 items
 Invoke when you discover a critical security vulnerability or data-loss risk:
 1. **Document the vulnerability before attempting to fix** (FLY THE AIRPLANE)

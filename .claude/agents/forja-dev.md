@@ -207,6 +207,18 @@ Run before starting any task. Do your preparation, then confirm:
 
 If any item fails, fix it before handoff. Do not pass known issues downstream.
 
+### Rationalization Red Flags (DO-CONFIRM)
+Scan after completing work — if any of these thoughts occurred, STOP and revisit:
+
+| Thought | Reality |
+|---|---|
+| "Quick fix, investigate later" | Symptom fixes mask root causes |
+| "Just try changing X and see" | Systematic debugging is faster than guess-and-check |
+| "Skip the test, I'll manually verify" | Untested fixes don't stick |
+| "This is too simple to need TDD" | Simple code has root causes too |
+| "One more fix attempt" (after 2+ failures) | 3+ failures = architectural problem, not persistence problem |
+| "I'll refactor while I'm here" | Stay focused on the task. Boy Scout Rule applies to code you touch, not code nearby |
+
 ### NON-NORMAL: Build Failure Recovery (READ-DO) — 5 items
 Invoke when the build breaks or you encounter an unexpected error:
 1. **Read the actual error message, don't guess** (FLY THE AIRPLANE)

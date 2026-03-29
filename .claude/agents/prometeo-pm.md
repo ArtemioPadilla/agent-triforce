@@ -239,6 +239,17 @@ After writing the spec from expertise, STOP and confirm every item:
 
 If any item fails, fix it before handoff. Do not pass an incomplete spec downstream.
 
+### Rationalization Red Flags (DO-CONFIRM)
+Scan after completing work — if any of these thoughts occurred, STOP and revisit:
+
+| Thought | Reality |
+|---|---|
+| "The requirements are obvious, skip the spec" | Obvious requirements have the most hidden assumptions |
+| "Let's just start building and figure it out" | That's how scope creep begins |
+| "This stakeholder feedback can wait" | Delayed feedback = rework |
+| "One more feature won't hurt" | YAGNI. Every feature has maintenance cost |
+| "The spec is close enough" | Ambiguity in specs becomes bugs in code |
+
 ### NON-NORMAL: Requirement Ambiguity (READ-DO) — 5 items
 Invoke when requirements are unclear, contradictory, or missing:
 1. **STOP — list the specific ambiguities, don't guess** (FLY THE AIRPLANE)
