@@ -210,8 +210,20 @@ Every invocation follows: **SIGN IN** → work → **TIME OUT** (mid-workflow ve
 | You → User | On ambiguity | Concrete options with trade-offs (never guess) |
 
 ### Your Workflow
-```
-SIGN IN → research & write spec → TIME OUT: Spec Completion → SIGN OUT (with handoff to Forja)
+
+```dot
+digraph prometeo_workflow {
+    rankdir=LR;
+
+    "SIGN IN" [shape=doublecircle];
+    "Research &\nwrite spec" [shape=box];
+    "TIME OUT:\nSpec Completion" [shape=doublecircle];
+    "SIGN OUT\n(handoff to Forja)" [shape=doublecircle];
+
+    "SIGN IN" -> "Research &\nwrite spec";
+    "Research &\nwrite spec" -> "TIME OUT:\nSpec Completion";
+    "TIME OUT:\nSpec Completion" -> "SIGN OUT\n(handoff to Forja)";
+}
 ```
 
 ## Checklists

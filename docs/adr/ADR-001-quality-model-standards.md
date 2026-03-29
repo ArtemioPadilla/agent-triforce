@@ -67,7 +67,7 @@ Adopt a hybrid quality model as the theoretical foundation for Agent Triforce:
 - ISO/IEC 9126-1:2001. Software engineering -- Product quality (superseded by 25010).
 - Basili, V.R. & Rombach, H.D. (1988). The TAME Project: Towards Improvement-Oriented Software Environments. *IEEE TSE*, 14(6), 758-773.
 - IEEE 829-2008. IEEE Standard for Software and System Test Documentation.
-- Callejas-Cuervo, M., Alarcon-Aldana, A.C., & Alvarez-Carreno, A.M. (2017). Modelos de calidad del software, un estado del arte. *Entramado*, 13(1), 230-242.
+- Callejas-Cuervo, M., Alarcon-Aldana, A.C., & Alvarez-Carreno, A.M. (2017). Modelos de calidad del software, un estado del arte. *Entramado*, 13(1), 230-244.
 - O'Regan, G. (2019). *Concise Guide to Software Testing*. Springer. Ch. 9: Test Metrics and Problem-Solving.
 - Feigenbaum, A.V. (1956). Total Quality Control. *Harvard Business Review*, 34(6), 93-101.
 - Crosby, P.B. (1979). *Quality Is Free*. McGraw-Hill.

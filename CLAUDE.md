@@ -59,20 +59,109 @@ No agent may skip any pause point. Each agent's `## Checklists` section defines 
 
 ### Workflow Pause Points
 
-```
-Standard Feature Flow:
-PM  ⏸️ SIGN IN → spec → ⏸️ TIME OUT: Spec Completion → ⏸️ SIGN OUT
-  → Dev ⏸️ SIGN IN → implement → ⏸️ TIME OUT: Implementation Complete → ⏸️ TIME OUT: Pre-Delivery → ⏸️ SIGN OUT
-    → QA  ⏸️ SIGN IN → audit → ⏸️ TIME OUT: Security + Quality Verification → ⏸️ SIGN OUT
-      → Dev ⏸️ SIGN IN → fix → ⏸️ TIME OUT: Implementation Complete + Pre-Delivery → ⏸️ SIGN OUT
-        → QA  ⏸️ SIGN IN → re-verify → ⏸️ SIGN OUT
+#### Standard Feature Flow
+
+```dot
+digraph standard_feature_flow {
+    rankdir=TB;
+    node [shape=box];
+
+    subgraph cluster_pm {
+        label="Prometeo (PM)";
+        style=dashed;
+        pm_signin [label="SIGN IN" shape=doublecircle];
+        pm_spec [label="Write spec"];
+        pm_timeout [label="TIME OUT:\nSpec Completion" shape=doublecircle];
+        pm_signout [label="SIGN OUT" shape=doublecircle];
+        pm_signin -> pm_spec -> pm_timeout -> pm_signout;
+    }
+
+    subgraph cluster_dev1 {
+        label="Forja (Dev)";
+        style=dashed;
+        dev_signin [label="SIGN IN" shape=doublecircle];
+        dev_impl [label="Implement"];
+        dev_timeout1 [label="TIME OUT:\nImpl Complete" shape=doublecircle];
+        dev_timeout2 [label="TIME OUT:\nPre-Delivery" shape=doublecircle];
+        dev_signout [label="SIGN OUT" shape=doublecircle];
+        dev_signin -> dev_impl -> dev_timeout1 -> dev_timeout2 -> dev_signout;
+    }
+
+    subgraph cluster_qa1 {
+        label="Centinela (QA)";
+        style=dashed;
+        qa_signin [label="SIGN IN" shape=doublecircle];
+        qa_audit [label="Audit"];
+        qa_timeout [label="TIME OUT:\nSecurity + Quality" shape=doublecircle];
+        qa_signout [label="SIGN OUT" shape=doublecircle];
+        qa_signin -> qa_audit -> qa_timeout -> qa_signout;
+    }
+
+    subgraph cluster_dev2 {
+        label="Forja (Fix Cycle)";
+        style=dashed;
+        dev2_signin [label="SIGN IN" shape=doublecircle];
+        dev2_fix [label="Fix findings"];
+        dev2_timeout [label="TIME OUT:\nImpl + Pre-Delivery" shape=doublecircle];
+        dev2_signout [label="SIGN OUT" shape=doublecircle];
+        dev2_signin -> dev2_fix -> dev2_timeout -> dev2_signout;
+    }
+
+    subgraph cluster_qa2 {
+        label="Centinela (Re-verify)";
+        style=dashed;
+        qa2_signin [label="SIGN IN" shape=doublecircle];
+        qa2_verify [label="Re-verify"];
+        qa2_signout [label="SIGN OUT" shape=doublecircle];
+        qa2_signin -> qa2_verify -> qa2_signout;
+    }
+
+    pm_signout -> dev_signin [label="handoff"];
+    dev_signout -> qa_signin [label="handoff"];
+    qa_signout -> dev2_signin [label="findings"];
+    dev2_signout -> qa2_signin [label="fixes"];
+}
 ```
 
-```
-Code Health Flow:
-QA  ⏸️ SIGN IN → scan → ⏸️ TIME OUT: Scan Complete → ⏸️ SIGN OUT
-  → Dev ⏸️ SIGN IN → cleanup → ⏸️ TIME OUT: Pre-Delivery → ⏸️ SIGN OUT
-    → QA  ⏸️ SIGN IN → verify → ⏸️ SIGN OUT
+#### Code Health Flow
+
+```dot
+digraph code_health_flow {
+    rankdir=TB;
+    node [shape=box];
+
+    subgraph cluster_qa {
+        label="Centinela (QA)";
+        style=dashed;
+        qa_signin [label="SIGN IN" shape=doublecircle];
+        qa_scan [label="Scan"];
+        qa_timeout [label="TIME OUT:\nScan Complete" shape=doublecircle];
+        qa_signout [label="SIGN OUT" shape=doublecircle];
+        qa_signin -> qa_scan -> qa_timeout -> qa_signout;
+    }
+
+    subgraph cluster_dev {
+        label="Forja (Dev)";
+        style=dashed;
+        dev_signin [label="SIGN IN" shape=doublecircle];
+        dev_cleanup [label="Cleanup"];
+        dev_timeout [label="TIME OUT:\nPre-Delivery" shape=doublecircle];
+        dev_signout [label="SIGN OUT" shape=doublecircle];
+        dev_signin -> dev_cleanup -> dev_timeout -> dev_signout;
+    }
+
+    subgraph cluster_qa2 {
+        label="Centinela (Verify)";
+        style=dashed;
+        qa2_signin [label="SIGN IN" shape=doublecircle];
+        qa2_verify [label="Verify"];
+        qa2_signout [label="SIGN OUT" shape=doublecircle];
+        qa2_signin -> qa2_verify -> qa2_signout;
+    }
+
+    qa_signout -> dev_signin [label="findings"];
+    dev_signout -> qa2_signin [label="fixes"];
+}
 ```
 
 ### Communication Schedule

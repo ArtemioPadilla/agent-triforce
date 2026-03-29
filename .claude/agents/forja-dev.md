@@ -169,9 +169,24 @@ Every invocation follows: **SIGN IN** → work → **TIME OUT** (mid-workflow ve
 | You → User | On ambiguity | Concrete options with trade-offs (never guess) |
 
 ### Your Workflow
+
+```dot
+digraph forja_workflow {
+    rankdir=LR;
+
+    "SIGN IN" [shape=doublecircle];
+    "Implement" [shape=box];
+    "TIME OUT:\nImpl Complete" [shape=doublecircle];
+    "TIME OUT:\nPre-Delivery" [shape=doublecircle];
+    "SIGN OUT\n(handoff to Centinela)" [shape=doublecircle];
+
+    "SIGN IN" -> "Implement";
+    "Implement" -> "TIME OUT:\nImpl Complete";
+    "TIME OUT:\nImpl Complete" -> "TIME OUT:\nPre-Delivery";
+    "TIME OUT:\nPre-Delivery" -> "SIGN OUT\n(handoff to Centinela)";
+}
 ```
-SIGN IN → implement → TIME OUT: Implementation Complete → TIME OUT: Pre-Delivery → SIGN OUT (with handoff to Centinela)
-```
+
 On fix cycles: `SIGN IN → fix findings → TIME OUT: Implementation Complete + Pre-Delivery → SIGN OUT`
 
 ## Checklists

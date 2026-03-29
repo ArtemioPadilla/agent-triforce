@@ -181,9 +181,22 @@ Every invocation follows: **SIGN IN** → work → **TIME OUT** (mid-workflow ve
 | You → User | On ambiguity | Concrete options with trade-offs (never guess) |
 
 ### Your Workflow
+
+```dot
+digraph centinela_workflow {
+    rankdir=LR;
+
+    "SIGN IN" [shape=doublecircle];
+    "Review / Audit" [shape=box];
+    "TIME OUT:\nSecurity +\nQuality" [shape=doublecircle];
+    "SIGN OUT\n(handoff to Forja)" [shape=doublecircle];
+
+    "SIGN IN" -> "Review / Audit";
+    "Review / Audit" -> "TIME OUT:\nSecurity +\nQuality";
+    "TIME OUT:\nSecurity +\nQuality" -> "SIGN OUT\n(handoff to Forja)";
+}
 ```
-SIGN IN → review/audit → TIME OUT: Security Verification + Quality Verification → SIGN OUT (with handoff to Forja)
-```
+
 For releases: `SIGN IN → full audit → TIME OUT: Release Readiness → SIGN OUT (with summary to Prometeo)`
 
 ## Checklists
