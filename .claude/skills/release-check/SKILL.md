@@ -21,7 +21,7 @@ Follow these steps:
 
 **RELEASE CRITERIA EVALUATION:**
 
-Evaluate each of the following 5 criteria. For each one, record: status (PASS/FAIL), actual value, threshold, and remediation steps if failing.
+Evaluate each of the following 8 criteria. For each one, record: status (PASS/FAIL/N/A), actual value, threshold, and remediation steps if failing.
 
 **Criterion 1 -- Test Coverage (threshold: 80%)**
 1. Check for coverage reports: look for `coverage/`, `htmlcov/`, `.coverage`, `coverage.xml`, or `lcov.info`
@@ -53,6 +53,33 @@ Evaluate each of the following 5 criteria. For each one, record: status (PASS/FA
 19. Record: count of P0/P1 items, PASS if 0, FAIL otherwise
 20. For each P0/P1 item, note its ID and title as remediation
 
+### Quality Metrics (GQM -- Basili & Rombach 1988)
+
+Every metric below traces to a business goal through a question. No measurement for measurement's sake.
+
+**Criterion 6 -- Phase Containment Effectiveness (PCE) (threshold: >= 70%)**
+- Goal: Catch defects before release
+- Question: What % of defects were found in-phase (by Centinela during review) vs escaped (post-merge)?
+- Metric: PCE = (in-phase defects / total defects) * 100
+- Data source: Review reports in `docs/reviews/` with finding status fields. In-phase = status reached `Verified`/`Closed`. Escaped = defects found after merge without prior review finding.
+- First run: If no review data exists, report "N/A -- baseline" (does not fail the gate)
+
+**Criterion 7 -- Defect Closure Rate (threshold: >= 90% Critical+Major closed)**
+- Goal: Resolve defects promptly
+- Question: Are findings from reviews being closed before release?
+- Metric: (Critical+Major findings with status Closed or Verified) / (total Critical+Major findings) * 100
+- Data source: All review reports for the current release cycle
+- First run: "N/A -- baseline"
+
+**Criterion 8 -- Open Findings Trend (threshold: non-increasing)**
+- Goal: Maintain stable codebase
+- Question: Is the defect arrival rate trending down?
+- Metric: Compare current open findings count to count at previous release-check
+- Data source: Previous release-check report in `docs/reviews/`
+- First run: "N/A -- baseline"
+
+References: Basili & Rombach (1988), O'Regan (2019) Ch. 9.2 (GQM), Ch. 9.3.3 (PCE)
+
 **TIME OUT 1 -- Documentation & Debt Check (READ-DO):**
 21. Read CHANGELOG.md -- is it up to date with all changes?
 22. Read TECH_DEBT.md -- are there any critical items blocking release?
@@ -81,7 +108,7 @@ Calculate the release confidence score:
   - CHANGELOG: 1.0 if exists, 0.0 otherwise
   - Dependencies: 1.0 if 0 CVEs, 0.0 otherwise
   - Tech debt: 1.0 if 0 P0/P1, 0.0 otherwise
-- Confidence score = average of all 5 scores * 100 (integer, 0-100)
+- Confidence score = average of all evaluated criteria scores * 100 (integer, 0-100). Criteria reporting "N/A -- baseline" are excluded from the average (they neither help nor hurt the score). When all 8 criteria have data, the full 8-point average applies.
 
 **RECOMMENDATION:**
 - If ALL criteria pass: **GO** with confidence score
@@ -106,6 +133,14 @@ Write the structured release report to `docs/reviews/release-check-{version}-{da
 | CHANGELOG | PASS/FAIL | {exists/missing} | Entry exists | {notes} |
 | Dependencies | PASS/FAIL | {count} CVEs | 0 Critical | {notes} |
 | Tech Debt | PASS/FAIL | {count} P0/P1 | 0 items | {notes} |
+
+## Quality Metrics (GQM)
+
+| # | Goal | Question | Metric | Value | Threshold | Status |
+|---|------|----------|--------|-------|-----------|--------|
+| 6 | Catch defects before release | What % found in-phase? | PCE | {value}% | >= 70% | {PASS/FAIL/N/A} |
+| 7 | Resolve defects promptly | Critical+Major closure rate? | Closure Rate | {value}% | >= 90% | {PASS/FAIL/N/A} |
+| 8 | Maintain stable codebase | Is arrival rate declining? | Open Trend | {current} vs {previous} | Non-increasing | {PASS/FAIL/N/A} |
 
 ## Remediation Steps
 
