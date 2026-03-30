@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "session-start": [
+      {
+        "command": "hooks/session-start/bootstrap.sh",
+        "description": "Agent Triforce session bootstrap — surfaces in-progress work and pending items"
+      }
+    ]
+  }
+}
