@@ -28,8 +28,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Public API docstring check** in code-health
 - **License Compliance** section in CLAUDE.md
 - **Quality Models & Measurement** section in CLAUDE.md (ISO 25010, GQM, IEEE 829)
+- **Multi-Platform Distribution**: Plugin manifests for Claude Code (`.claude-plugin`), Cursor (`.cursor-plugin/`), Codex (`.codex/`), OpenCode (`.opencode/`), and Gemini CLI (`GEMINI.md`, `gemini-extension.json`). Package metadata in `package.json`.
+- **GitHub Templates**: PR template with project-specific checklist, bug report and feature request issue templates.
+- **Slash Commands**: `/brainstorm`, `/implement`, `/debug` user-facing commands mapping to core workflows.
 
 ### Changed
+- sync-plugin.sh: added 6 missing skills to SKILLS array (self-review, git-worktrees, visual-companion, subagent-orchestration, systematic-debugging, verification-before-completion)
 - security-audit: added license compliance scan section and checklist item (Security Verification now 6 items)
 - release-check: expanded from 5 to 8 criteria with GQM section in report template; confidence score excludes N/A baselines
 - code-health: reorganized scan under FURPS categories with COPQ tagging
