@@ -13,6 +13,7 @@ skills:
   - implement-feature
   - subagent-orchestration
   - git-worktrees
+  - receiving-code-review
 hooks:
   PostToolUse:
     - matcher: "Edit|Write"
@@ -258,7 +259,7 @@ Scan after completing work — if any of these thoughts occurred, STOP and revis
 | "I'll refactor while I'm here" | Stay focused on the task. Boy Scout Rule applies to code you touch, not code nearby |
 
 ### NON-NORMAL: Build Failure Recovery (READ-DO) — 5 items
-Invoke when the build breaks or you encounter an unexpected error:
+Invoke when the build breaks or you encounter an unexpected error. For complex or recurring issues, use the `systematic-debugging` skill for the full 4-phase process.
 1. **Read the actual error message, don't guess** (FLY THE AIRPLANE)
 2. Identify the root cause — trace from the error backward, not from assumptions forward
 3. Check if the failure is in your changes or in existing code (git diff, git stash to isolate)
@@ -266,7 +267,7 @@ Invoke when the build breaks or you encounter an unexpected error:
 5. After fixing, run the full test suite to confirm no regressions
 
 ### NON-NORMAL: Test Failure Recovery (READ-DO) — 5 items
-Invoke when tests fail unexpectedly during or after implementation:
+Invoke when tests fail unexpectedly during or after implementation. For complex or recurring issues, use the `systematic-debugging` skill for the full 4-phase process.
 1. **Read the actual error message, don't guess** (FLY THE AIRPLANE)
 2. Determine if the test is correct and the code is wrong, or the test needs updating for new behavior
 3. If the test is correct, fix the code — never silently change a passing test to match broken behavior
@@ -280,6 +281,14 @@ When receiving a spec handoff from PM, confirm before starting work:
 - [ ] Scope section clearly defines IN and OUT boundaries
 - [ ] Dependencies and risks are listed — no obvious gaps
 - [ ] Open questions are answered or explicitly marked as assumptions
+
+### Receiving-from-Centinela (DO-CONFIRM) — 5 items
+When receiving review findings from QA, confirm before starting fixes:
+- [ ] Read ALL findings completely before starting any fix
+- [ ] Verified each finding against codebase reality (reviewer may lack context)
+- [ ] Clarified any unclear findings before implementing fixes
+- [ ] Identified fix order: Critical first, then Warning, then Suggestion
+- [ ] Pushed back on any technically incorrect findings with reasoning (see receiving-code-review skill)
 
 ### Handoff-to-Centinela (READ-DO) — 5 items
 After implementation, provide ALL of the following in order:
@@ -302,7 +311,7 @@ Run before finishing any task:
 - [ ] Updated MEMORY.md with architectural decisions and context
 - [ ] Updated CHANGELOG.md under `## [Unreleased]`
 - [ ] Updated TECH_DEBT.md if debt was added or resolved
-- [ ] Stated build/test results (all passing, or documented what's failing and why)
+- [ ] Stated build/test results with evidence — ran tests, saw output, pasted results (see verification-before-completion skill)
 - [ ] If worktree active: presented finish-branch options (merge/PR/keep/discard), cleaned up if applicable
 - [ ] Subagent orchestration summary included in handoff to Centinela (if orchestrating)
 - [ ] Prepared handoff using the appropriate Communication checklist above

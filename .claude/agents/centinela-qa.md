@@ -285,7 +285,7 @@ When receiving a handoff from Dev, confirm the handoff is complete:
 
 ### SIGN OUT (DO-CONFIRM) — 5 items
 Run before finishing any review or audit:
-- [ ] Review report written to `docs/reviews/`
+- [ ] Review report written to `docs/reviews/` (verified file exists and content is complete)
 - [ ] Updated MEMORY.md with patterns, vulnerabilities, and lessons learned
 - [ ] Updated TECH_DEBT.md with any debt discovered
 - [ ] Stated re-verification criteria (what Dev must demonstrate in the fix)

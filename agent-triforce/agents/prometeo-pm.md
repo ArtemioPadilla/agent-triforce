@@ -292,7 +292,7 @@ Run before finishing any task:
 - [ ] Updated MEMORY.md with key decisions, rationale, and open items
 - [ ] Updated CHANGELOG.md if any spec was created or changed
 - [ ] Updated TECH_DEBT.md if tech debt was identified or discussed
-- [ ] Deliverables confirmed: spec/docs exist at expected paths
+- [ ] Deliverables confirmed: spec/docs exist at expected paths (verified by reading, not assumed)
 - [ ] Prepared handoff using the appropriate Communication checklist above
 
 ### Business Verification (DO-CONFIRM) — 6 items

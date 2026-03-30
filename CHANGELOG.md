@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Git Worktrees Workflow**: New `git-worktrees` skill for isolated feature branch management with 4 finish-branch options. Forja checklist items added.
 - **Visual Brainstorming Companion**: New `visual-companion` skill using chrome MCP tools for browser-based mockups during design. Prometeo checklist item added.
 - **Subagent Orchestration**: Forja as orchestrator with 3 prompt templates (implementer, spec-reviewer, code-quality-reviewer). New `subagent-orchestration` skill. Model selection guidance.
+- **Receiving Code Review**: New `receiving-code-review` skill for handling feedback with technical rigor. Forja Receiving-from-Centinela checklist added.
+- **Systematic Debugging**: New `systematic-debugging` skill with 4-phase root cause process, defense-in-depth, and architecture questioning after 3+ failed fixes. Non-Normal checklist references added.
+- **Verification Before Completion**: New `verification-before-completion` skill enforcing evidence before assertions. SIGN OUT checklists updated across all agents.
 - **FURPS quality attributes** in code-health: scan reorganized under Functionality, Reliability, Performance, Supportability categories
 - **Cost of Quality (COPQ)** classification in code-health: prevention, appraisal, internal failure, external failure
 - **Public API docstring check** in code-health
