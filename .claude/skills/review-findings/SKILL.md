@@ -17,6 +17,59 @@ Follow these steps:
 - Run the SIGN IN checklist from your agent file
 - Surface any concerns about the findings — complexity, risk, dependencies
 
+### Defect Severity Classification
+
+Every finding in the review report must have a severity:
+- **Critical**: Security vulnerability, data loss, system crash
+- **Major**: Feature broken, workaround exists but painful
+- **Medium**: Incorrect behavior, easy workaround
+- **Minor**: Cosmetic, style, naming
+
+### Defect Status Lifecycle
+
+Each finding tracks its status through the Centinela > Forja > Centinela loop:
+
+```
+Open (Centinela identifies in review)
+  > Assigned (handoff to Forja via review-findings)
+    > Implemented (Forja completes fix)
+      > Verified (Centinela re-verifies)
+        > Closed
+```
+
+When reading the review report, update each finding's status from `Open` to `Assigned`.
+When fixing is complete, update status to `Implemented`.
+Centinela re-verification updates to `Verified` then `Closed`.
+
+### Entry/Exit Criteria
+
+**Entry criteria** (must be true before starting fixes):
+- Implementation is complete and all existing tests pass
+- Forja's Pre-Delivery checklist has been passed
+- Review report exists at `docs/reviews/{feature-name}-review.md`
+
+**Exit criteria** (must be true before handoff back to Centinela):
+- All Critical and Major findings have status `Implemented`
+- Remaining Minor findings are documented in `TECH_DEBT.md` with justification
+- Fix order was respected: Critical > Major > Medium > Minor
+
+### Review Report Finding Format
+
+Each finding in the review report must include:
+
+| Field | Description |
+|-------|-------------|
+| ID | `F-{NNN}` sequential |
+| Severity | Critical / Major / Medium / Minor |
+| Status | Open / Assigned / Implemented / Verified / Closed |
+| Category | Code Quality / Architecture / Spec Compliance |
+| Description | What the issue is |
+| Location | `file:line` reference |
+| Recommendation | How to fix |
+| Verified-By | Agent that verified the fix (populated during re-verification) |
+
+Reference: O'Regan (2019), Ch. 7, sections 7.3-7.5
+
 **⏸️ TIME OUT — Pre-Fix Preparation (READ-DO):**
 1. Read the review report in `docs/reviews/`
 2. Understand each finding's root cause BEFORE writing any fix
