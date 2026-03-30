@@ -2,7 +2,7 @@
   "name": "agent-triforce",
   "displayName": "Agent Triforce",
   "description": "PM/Dev/QA multi-agent development system with checklist methodology",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "author": {
     "name": "Artemio Padilla"
   },

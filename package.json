@@ -1,7 +1,7 @@
 {
   "name": "agent-triforce",
   "displayName": "Agent Triforce",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "PM/Dev/QA multi-agent development system with checklist methodology based on The Checklist Manifesto and Boeing's checklist engineering",
   "author": {
     "name": "Artemio Padilla",
