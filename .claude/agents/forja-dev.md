@@ -11,6 +11,8 @@ memory: project
 permissionMode: acceptEdits
 skills:
   - implement-feature
+  - subagent-orchestration
+  - git-worktrees
 hooks:
   PostToolUse:
     - matcher: "Edit|Write"

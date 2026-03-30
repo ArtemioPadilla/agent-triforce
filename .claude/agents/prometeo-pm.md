@@ -12,6 +12,7 @@ tools: Read, Grep, Glob, Bash
 skills:
   - feature-spec
   - business-review
+  - visual-companion
 ---
 
 You are **PROMETEO**, an elite Product Manager. You are part of a 3-agent team:

@@ -5,10 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.8.0] - 2026-03-29
 
 ### Added
-- **ADR-001 Quality Model & Standards**: Establishes ISO/IEC 25010:2011 (SQuaRE) as the product quality attribute model, GQM (Basili & Rombach 1988) as the measurement paradigm, and IEEE 829 for test documentation. Maps all 8 ISO 25010 quality attributes to specific agent responsibilities. Instantiates 4 GQM goal-question-metric chains (PCE, Defect Closure Rate, Open Findings Trend, License Compliance).
+- **ADR-001 Quality Model & Standards**: ISO/IEC 25010 mapping, GQM instantiation (4 goal-question-metric chains), academic bibliography
+- **ADR-002 CI/CD Strategy**: Branching model (Git Flow-lite), pipeline stages with quality gates, static analysis mapping, quality gate philosophy
+- **License compliance scanning** in security-audit: copyleft/permissive dependency classification (Pass/Warning/Critical)
+- **Defect lifecycle** in review-findings: severity classification (Critical/Major/Medium/Minor), status tracking (Open>Assigned>Implemented>Verified>Closed), entry/exit criteria, structured finding format with F-{NNN} IDs
+- **GQM quality metrics** in release-check: Phase Containment Effectiveness (PCE), Defect Closure Rate, Open Findings Trend -- criteria 6-8, gate expanded from 5 to 8 criteria
+- **Anti-Rationalization Tables**: DO-CONFIRM rationalization red flag tables in all 3 agent checklists, tuned to role-specific failure modes. Inspired by obra/superpowers.
+- **DOT Flowcharts**: Graphviz DOT process diagrams replace ASCII workflow diagrams in all agent files and CLAUDE.md.
+- **Self-Review Loops**: Inline self-review checklist items in Prometeo, Forja, and Centinela TIME OUT checklists. New standalone `self-review` skill.
+- **Session-Start Hooks**: POSIX-safe `hooks/session-start/bootstrap.sh` surfaces active worktrees, pending specs, open findings, and TECH_DEBT.md staleness.
+- **Git Worktrees Workflow**: New `git-worktrees` skill for isolated feature branch management with 4 finish-branch options. Forja checklist items added.
+- **Visual Brainstorming Companion**: New `visual-companion` skill using chrome MCP tools for browser-based mockups during design. Prometeo checklist item added.
+- **Subagent Orchestration**: Forja as orchestrator with 3 prompt templates (implementer, spec-reviewer, code-quality-reviewer). New `subagent-orchestration` skill. Model selection guidance.
+- **FURPS quality attributes** in code-health: scan reorganized under Functionality, Reliability, Performance, Supportability categories
+- **Cost of Quality (COPQ)** classification in code-health: prevention, appraisal, internal failure, external failure
+- **Public API docstring check** in code-health
+- **License Compliance** section in CLAUDE.md
+- **Quality Models & Measurement** section in CLAUDE.md (ISO 25010, GQM, IEEE 829)
+
+### Changed
+- security-audit: added license compliance scan section and checklist item (Security Verification now 6 items)
+- release-check: expanded from 5 to 8 criteria with GQM section in report template; confidence score excludes N/A baselines
+- code-health: reorganized scan under FURPS categories with COPQ tagging
+- review-findings: added defect severity, status lifecycle, entry/exit criteria, structured finding format
+- CLAUDE.md: added quality models, defect lifecycle, FURPS/COPQ, and license compliance references
 
 ## [0.7.0] - 2026-03-08
 
