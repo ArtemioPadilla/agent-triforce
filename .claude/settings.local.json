@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/artemiopadilla/Documents/repos/GitHub/personal/claude-triforce-template log --oneline --format=\"%H %ai %s\" --all)",
+      "Bash(git -C /Users/artemiopadilla/Documents/repos/GitHub/personal/claude-triforce-template log --stat --format=\"---COMMIT--- %H %ai %s\")",
+      "Bash(python3:*)",
+      "WebFetch(domain:claudemarketplaces.com)",
+      "WebFetch(domain:docs.claude.com)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "Bash(ln:*)",
+      "Bash(claude plugin:*)",
+      "Bash(gh repo:*)",
+      "WebFetch(domain:www.atlassian.com)",
+      "WebFetch(domain:cengproject.cankaya.edu.tr)",
+      "WebFetch(domain:dspmuranchi.ac.in)",
+      "WebFetch(domain:www.buildwithclaude.com)",
+      "WebFetch(domain:clau.de)",
+      "Bash(gh pr:*)",
+      "Bash(cat:*)",
+      "Bash(cd /tmp/buildwithclaude && npm test 2>&1)",
+      "Bash(cd /tmp/buildwithclaude && npm install 2>&1)",
+      "Bash(ls:*)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:shields.io)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:www.firecrawl.dev)",
+      "WebFetch(domain:pierce-lamb.medium.com)",
+      "WebFetch(domain:code.visualstudio.com)",
+      "Bash(grep:*)",
+      "Bash(test:*)",
+      "Bash(file:*)",
+      "Bash(./scripts/sync-plugin.sh:*)",
+      "Read(//private/tmp/**)",
+      "Bash(python3.11:*)",
+      "Bash(pytest:*)",
+      "Bash(chmod:*)",
+      "Bash(sh hooks/session-start/bootstrap.sh)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
